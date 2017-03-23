@@ -98,7 +98,7 @@
 
 @function expect-string-list($var, $strict: false) {
   $strict: expect-bool($strict);
-  $cast: expect-bool($cast);
+  $cast: expect-bool($strict);
 
   @if ($strict) {
     $var: expect-list($var);
