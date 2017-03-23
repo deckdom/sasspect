@@ -4,7 +4,7 @@
   "description": "Simple type-check library for minimalistic sass-tests",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp"
   },
   "keywords": [
     "sass",
@@ -17,5 +17,9 @@
     "quality"
   ],
   "author": "Dominik Decker <sinexist@entailment.io>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  }
 }
