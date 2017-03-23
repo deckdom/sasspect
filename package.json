@@ -2,9 +2,21 @@
   "name": "sasspect",
   "version": "1.0.0",
   "description": "Simple type-check library for minimalistic sass-tests",
+  "author": {
+    "name": "Dominik Decker",
+    "email": "sinexist@entailment.io",
+    "url": "http://sinexist.de"
+  },
+  "files": [
+    "sasspect.scss",
+    ".editorconfig",
+    "gulpfile.js",
+    "README.md"
+  ],
   "main": "index.js",
-  "scripts": {
-    "test": "gulp"
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
   },
   "keywords": [
     "sass",
@@ -16,10 +28,16 @@
     "code",
     "quality"
   ],
-  "author": "Dominik Decker <sinexist@entailment.io>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/entailment/sasspect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/entailment/sasspect/issues"
+  },
+  "homepage": "https://github.com/entailment/sasspect",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-sass": "^3.1.0"
+  "scripts": {
+    "test": "gulp"
   }
 }
