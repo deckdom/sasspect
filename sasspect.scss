@@ -1,0 +1,130 @@
+/* Basic check functions
+ * --------------------------------------------------------- */
+ 
+@function is-type($value, $type) {
+  @if (type-of($type) != 'string') {
+    @error "The type-name has to be a string!";
+  }
+  @return type-of($value) == $type;
+}
+
+@function expect-type($var, $type) {
+  @if ($var == null or not is-type($var, $type)) {
+    @error "Expected an #{$type}, got #{type-of($type)} instead!";
+  }
+
+  @return $var;
+}
+
+/* Basic Types
+ * --------------------------------------------------------- */
+
+@function expect-string($var) {
+  @return expect-type($var, 'string');
+}
+
+@function expect-number($var) {
+  @return expect-type($var, 'number');
+}
+
+@function expect-list($var, $strict: true) {
+  @if ($strict) {
+    // Plain check
+    @return expect-type($var);
+  } @else if (not is-type($var, 'list')) {
+    // Return an list with the item inside it
+    @return append((), $var);
+  }
+  @return $var;
+}
+
+@function expect-map($var) {
+  @return expect-type($var, 'map');
+}
+
+@function expect-bool($var) {
+  @return expect-type($var, 'bool');
+}
+
+@function expect-color($var) {
+  @return expect-type($var, 'color');
+}
+
+/* Units
+ * --------------------------------------------------------- */
+
+@function expect-unit($var, $unit: null) {
+  $var: expect-number($var);
+
+  @if (unitless($var)) {
+    @error "Expected an number with a unit, got a plain number instead!";
+  }
+
+  @if ($unit == null) {
+    @return $var;
+  }
+
+  $unit: expect-string($unit);
+  @if (unit($var) != $unit) {
+    @error "Expected an number with a '#{$unit}'-unit, got a '#{unit($var)}' instead!";
+  }
+
+  @return $var;
+}
+
+@function expect-unitless($var) {
+  $var: expect-number($var);
+
+  @if (not unitless($var)) {
+    @error "Expected an number without a unit!";
+  }
+
+  @return $var;
+}
+
+/* Advanced Maps and Lists
+ * --------------------------------------------------------- */
+
+@function expect-map-key($map, $key) {
+  $map: expect-map($map);
+  $key: expect-string($key);
+
+  @if (not map-has-key($map, $key)) {
+    @error "Expected the map to have the key '#{$key}' specified!";
+  }
+
+  @return map-get($map, $key);
+}
+
+@function expect-string-list($var, $strict: false) {
+  $strict: expect-bool($strict);
+  $cast: expect-bool($cast);
+
+  @if ($strict) {
+    $var: expect-list($var);
+  } @else if (is-type($var, 'string')) {
+    @return append((), $var);
+  } @else if (not is-type($var, 'list')) {
+    @error "Expected an string or list with string elements, got #{type-of($var)} instead!";
+  }
+
+  $list: ();
+  @each $item in $var {
+    @if ($item == null) {
+      @error "Expected an list with string-only element, but an element was null!";
+    }
+    
+    @if (not is-type($item, 'string')) {
+      @if ($strict) {
+        @error "Expected an list with string-only elements, but the element ('#{$item}') is an '#{type-of($item)}'!";
+      }
+      
+      // Cast item to a string
+      $list: append($list, $item + unquote(''));
+    } @else {
+      $list: append($list, $item);
+    }
+  }
+
+  @return $list;
+}
