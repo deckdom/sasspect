@@ -1,0 +1,26 @@
+{
+  "name": "sasspect",
+  "authors": [
+    "Dominik Decker <sinexist@entailment.io>"
+  ],
+  "description": "Simple type-check library for minimalistic sass-tests",
+  "main": "sasspect.scss",
+  "keywords": [
+    "sass",
+    "sasspect",
+    "expect",
+    "testing",
+    "unit",
+    "test",
+    "code",
+    "quality"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "entailment.io",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
