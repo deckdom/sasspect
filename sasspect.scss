@@ -1,10 +1,23 @@
 // Basic check functions
 // ----------------------------------------------
- 
+
 @function is-type($value, $type) {
+  @if (type-of($type) == 'list') {
+    @each $t in $type {
+      @if (type-of($t) != 'string') {
+        @warn "The type-list contains an item that is not a string!";
+      }
+      @if (is-type($value, $t)) {
+        @return true;
+      }
+    }
+    @return false;
+  }
+
   @if (type-of($type) != 'string') {
     @warn "The type-name has to be a string!";
   }
+
   @return type-of($value) == $type;
 }
 
@@ -50,8 +63,8 @@
   @return expect-type($var, 'color');
 }
 
-/* Units
- * --------------------------------------------------------- */
+// Units
+// ----------------------------------------------
 
 @function expect-unit($var, $unit: null) {
   $var: expect-number($var);
@@ -82,8 +95,8 @@
   @return $var;
 }
 
-/* Advanced Maps and Lists
- * --------------------------------------------------------- */
+// Advanced Maps and Lists
+// ----------------------------------------------
 
 @function expect-map-key($map, $key) {
   $map: expect-map($map);
@@ -113,12 +126,12 @@
     @if ($item == null) {
       @warn "Expected an list with string-only element, but an element was null!";
     }
-    
+
     @if (not is-type($item, 'string')) {
       @if ($strict) {
         @warn "Expected an list with string-only elements, but the element ('#{$item}') is an '#{type-of($item)}'!";
       }
-      
+
       // Cast item to a string
       $list: append($list, $item + unquote(''));
     } @else {
