@@ -16,8 +16,6 @@
   "main": "index.js",
   "devDependencies": {
     "chai": "^4.1.2",
-    "gulp": "^3.9.1",
-    "gulp-sass": "^3.1.0",
     "mocha": "^4.0.1",
     "node-sass": "^4.5.3"
   },
