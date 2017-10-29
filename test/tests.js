@@ -5,6 +5,36 @@ var expect = chai.expect;
 
 describe('sasspect', function() {
 
+    var types = {
+        bool: [
+            'true',
+            'false',
+        ],
+        string: [
+            "'something'",
+            '"something"',
+        ],
+        color: [
+            '#123',
+            '#ffffff',
+            'rgb(105,49,195)',
+            'rgba(32,214,50,181)',
+            'hsl(5,16,45)',
+            'hsla(66,35,90,56)',
+        ],
+        number: [
+            '123',
+            '123.456',
+        ],
+        list: [
+            '(123, "string")',
+            '(123, "hello", #123, true)',
+        ],
+        map: [
+            '(some: "map")',
+        ]
+    }
+
     it('should compile', function() {
         var result = sass.renderSync({
             file: path.resolve(__dirname, '../sasspect.scss'),
@@ -24,44 +54,35 @@ describe('sasspect', function() {
     describe('functions', function() {
         describe('is-type', function() {
             it('should be equal', function() {
-                sameType(true, 'bool');
-                sameType(false, 'bool');
-                sameType('string', 'string');
-                sameType('#123', 'color');
-                sameType('#ffffff', 'color');
-                sameType('rgb(105,49,195)', 'color');
-                sameType('rgba(32,214,50,181)', 'color');
-                sameType('hsl(5,16,45)', 'color');
-                sameType('hsla(66,35,90,56)', 'color');
-                sameType('123', 'number');
-                sameType('123.456', 'number');
-                sameType('(123,456)', 'list');
-                sameType('(some: "map")', 'map');
+                Object.keys(types).forEach(function(type) {
+                    var elements = types[type];
+                    elements.forEach(function(value) {
+                        var t = sass.renderSync({
+                            data: `@import "sasspect";test{result:is-type(${value}, "${type}")}in{value:${type}}`,
+                            outputStyle: 'compressed'
+                        });
+                        expect(t.css.toString().trim()).to.be.equal(`test{result:true}in{value:${type}}`);
+                    });
+                });
             });
 
             it('shouldn\'t be equal', function() {
-                otherType('"string"', 'bool');
-                otherType('123', 'bool');
-                otherType('123.456', 'bool');
-                otherType('#123', 'bool');
+                Object.keys(types).forEach(function(type) {
+                    Object.keys(types).forEach(function(other) {
+                        if (type === other) {
+                            return;
+                        }
+                        var elements = types[other];
+                        elements.forEach(function(value) {
+                            var t = sass.renderSync({
+                                data: `@import "sasspect";test{result:is-type(${value}, "${type}")}in{value:${type}}`,
+                                outputStyle: 'compressed',
+                            });
+                            expect(t.css.toString().trim()).to.be.equal(`test{result:false}in{value:${type}}`);
+                        });
+                    });
+                });
             });
-        })
+        });
     })
 })
-
-function sameType(value, type) {
-    var t = sass.renderSync({
-        data: `@import "sasspect";test{result:is-type(${value}, "${type}")}in{value:${type}}`,
-        outputStyle: 'compressed'
-    });
-    expect(t.css.toString().trim()).to.be.equal(`test{result:${true}}in{value:${type}}`);
-    
-}
-
-function otherType(value, type) {
-    var t = sass.renderSync({
-        data: `@import "sasspect";test{result:is-type(${value}, "${type}")}in{value:${type}}`,
-        outputStyle: 'compressed',
-    });
-    expect(t.css.toString().trim()).to.be.equal(`test{result:${false}}in{value:${type}}`);
-}
