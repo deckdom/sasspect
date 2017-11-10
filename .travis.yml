@@ -1,17 +1,33 @@
 language: node_js
+
 node_js:
-  - "node"
-  - "8"
-  - "7"
-  - "6"
+- node
+- '8'
+- '7'
+- '6'
 
 notifications:
   email: false
 
 cache:
   directories:
-    - "node_modules"
+  - node_modules
 
 install: npm install
 
 script: npm test
+
+deploy:
+  - provider: npm
+  email: sinexist@entailment.io
+  api_key:
+    secure: M2bnDaOOU3oILzIV0dysVVuUo0L1+ErWCppcylEQ9zgRmb5y3f2zpHVe2keK/qkUKBdcT3baj6KZDxHFuREfh04b/sqq+xXl6rr4fxm4q4lMz5MA5pPN1VWY4azVaNRhcKPnrQnjbkhHbU3oMgiQfiwU3KuzoDd6d2qEZFtDCuQU0BtgL+7rzty9OLXoyzY3PlaSzF33sHrIS417wNDllHkR6D6L7NRD5TSg0Em95mQLoPgDmCzwA+U/QcNwq8rSV3ejZll5oJV/hvzllPNPCQ8/KcNSgmBK1VgMHqSy8+yGMn5s9s6AqAjJdJ+SBHpZh9r0cpyaUnXDEOLNnKB37uy7P+BPYBhiM2TxHWVP4T00XF2iqxY/MDLezdbnJUXsm9Qh4ErVNdYXEjQzgaGJquivr7j79a4Y5Ccp3gyphq2F2+Qj5qRZwD256rTPgoaTIUpkUA27avRfiH/vQRvn/2AKLJdsSvoWDxQZ6ArGPRgdPSS2p957wFsq+kLpISW7MPS+ns09U1NOysIXLyCY8DrOds6IH8kuxHwr5LLTbFTtFSbqvSNSxTPF1BKVWLtECUKVHXC65EMUXauYH+07H909utgeAdmPBEyn4QKbwaZRajIke10VS7Pta+InRnx5pOuD7frgUyVQvKnvt+ifoHckKeuxo1/4ietxKoDf9Q4=
+  on:
+    tags: true
+    repo: entailment/sasspect
+  - provider: releases
+  api_key:
+    secure: Ou/XIwE+I4DH0NYTj09c/YYK6324Da+1IbP1DBCeC2pjCCJGfcxcxpK1nmdvlGIz9PcC4p3kNV4zgft7BjSq7SgiT3yMMifoK/cvT1Y3FXOPQUHnWYm39vY3es5C5hk1usPfa2ZghI+DMii6sGChnQtCjDHU1lwOcjMgQQgaIV1q38yja1D/0j+Srwsk3aXJNxBHSt5T9yV3TRYji30djGOZ0T+R8Sgc/g9eyN7pQJPQrYXMxNXWpQUY3sp1B2bd4NJTmUKM154nHVHmlC1InCAGq5sC82/08ANkWind4/UOZ33RSKPaU0MrpdvijeW5uXRPCcKxCqVuFsxMeFdovwQ/ZgPvNQoHuOzqKWHqXV3LaS2iA/0779CZFQEd8yY7nq67sXQtHhlGGixy+uu9JO+wOLDLjy1x2QqbTNzdpDvqtzGhkvelgaZPu4e3fsMGdatbxWLr3s6CvRWJ6yAsD3lWw5eQoR6/TfNixfKqTgyTEScuJ4/snUMWpu3x9GYTj9S6icJFTZP2OiK/jog4yD8EbcmVLnI/ETEGR0e0dPAW+NUtCEQYX2zDqFsuMQNqPABE4iVM9HAsK0GLl+GSASWesCEQPbhXcbCdflPj/mFdrqNDmxDatWVk0pFkfBZk/MvTUt8VsAd6oREa+/1aB2lCJhjPNZ5zsFiko12YTa4=
+  file: sasspect.scss
+  on:
+    repo: entailment/sasspect
